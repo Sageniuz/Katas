@@ -10,7 +10,7 @@ public class StringCalculator {
         if (numbers == null || numbers == "")
             return DEFAULT_VALUE;
 
-        int sum = asList(numbers.split(","))
+        int sum = asList(numbers.split("[\n,]"))
             .stream()
             .mapToInt(s -> Integer.parseInt(s))
             .sum();
