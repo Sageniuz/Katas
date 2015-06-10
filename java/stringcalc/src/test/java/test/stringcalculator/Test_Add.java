@@ -24,4 +24,11 @@ public class Test_Add {
         assertThat(actualSum).isZero();
     }
 
+    @Test
+    public void returns_given_number_if_only_single_number_is_provided() {
+        StringCalculator sut = new StringCalculator();
+        int actualSum = sut.Add("1");
+        assertThat(actualSum).isEqualTo(1);
+    }
+
 }
