@@ -38,9 +38,10 @@ public class Test_Add {
     }
 
     @TestWith(value = {
-        "1,2,3, | 6"
+        "1,2,3, | 6",
+        "1\n5\n10 | 16"
     }, separator = "[\\|]")
-    public void returns_sum_for_coma_seperated_numbers(String givenNumbers, int expectedSum) {
+    public void returns_sum_for_default_seperator_seperated_numbers(String givenNumbers, int expectedSum) {
         StringCalculator sut = new StringCalculator();
         int actualSum = sut.Add(givenNumbers);
         assertThat(actualSum).isEqualTo(expectedSum);
