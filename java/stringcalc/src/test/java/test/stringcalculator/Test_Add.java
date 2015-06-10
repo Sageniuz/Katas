@@ -29,7 +29,8 @@ public class Test_Add {
     }
 
     @TestWith({
-        "1, 1"
+        "1, 1",
+        "10, 10"
     })
     public void returns_given_number_if_only_single_number_is_provided(String givenNumbers, int expectedSum) {
         StringCalculator sut = new StringCalculator();
