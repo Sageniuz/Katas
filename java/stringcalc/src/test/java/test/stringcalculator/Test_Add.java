@@ -21,7 +21,6 @@ public class Test_Add {
     }
 
     @Test()
-    @Ignore("Automatically will be green. First a failing test!")
     public void returns_0_for_empty_string() {
         StringCalculator sut = new StringCalculator();
         int actualSum = sut.Add("");
