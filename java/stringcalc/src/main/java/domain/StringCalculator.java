@@ -1,23 +1,43 @@
 package domain;
 
+import java.util.ArrayList;
+
+import static java.lang.String.*;
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
 
 public class StringCalculator {
 
     public static final int DEFAULT_VALUE = 0;
-    public static final String DEFAULT_SEPERATORS = join("", asList(",", "\n"));
-    public static final String BY_DEFAULT_SEPERATORS = "[" + DEFAULT_SEPERATORS + "]";
+    private static final ArrayList<String> seperators = new ArrayList<>(asList(",", "\n"));
+    public static final String SINGLE_CHARACTER_CUSTOM_SEPERATOR_PREFIX = "//";
 
     public int Add(String numbers) {
         if (numbers == null || numbers == "")
             return DEFAULT_VALUE;
 
-        int sum = asList(numbers.split(BY_DEFAULT_SEPERATORS))
+        if (numbers.startsWith(SINGLE_CHARACTER_CUSTOM_SEPERATOR_PREFIX)) {
+            seperators.add(customSeperatorFrom(numbers));
+            numbers = withoutCustomSeperatorPattern(numbers);
+        }
+
+        int sum = asList(numbers.split(customSeperatorRegex()))
             .stream()
             .mapToInt(s -> Integer.parseInt(s))
             .sum();
 
         return sum;
+    }
+
+    private String customSeperatorFrom(String numbers) {
+        return valueOf(numbers.charAt(2));
+    }
+
+    private String withoutCustomSeperatorPattern(String numbers) {
+        return numbers.substring(3);
+    }
+
+    private String customSeperatorRegex() {
+        return "[" + join("", seperators) + "]";
     }
 }
