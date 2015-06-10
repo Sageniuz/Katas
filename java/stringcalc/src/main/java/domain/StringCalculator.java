@@ -2,6 +2,8 @@ package domain;
 
 public class StringCalculator {
     public int Add(String numbers) {
-        return 0;
+        if (numbers == null)
+            return 0;
+        return 1;
     }
 }
