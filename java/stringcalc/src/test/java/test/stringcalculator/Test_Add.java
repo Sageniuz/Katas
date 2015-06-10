@@ -48,7 +48,8 @@ public class Test_Add {
     }
 
     @TestWith(value = {
-        "//;1;2;3 | 6"
+        "//;1;2;3 | 6",
+        "///1/2/3 | 6",
     }, separator = "[\\|]")
     public void returns_sum_for_single_character_custom_seperator_seperated_numbers(String givenNumbers, int expectedSum) {
         StringCalculator sut = new StringCalculator();
