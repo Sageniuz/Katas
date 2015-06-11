@@ -59,4 +59,17 @@ public class Test_Add {
         int actualSum = sut.Add(givenNumbers);
         assertThat(actualSum).isEqualTo(expectedSum);
     }
+
+    @TestWith(value = {
+        "//[;;;]1;;;2;;;3 | 6"
+    }, separator = "[\\|]")
+    public void returns_sum_for_multiple_character_custom_seperator_seperated_numbers(
+        String givenNumbers,
+        int expectedSum)
+    {
+        StringCalculator sut = new StringCalculator();
+        int actualSum = sut.Add(givenNumbers);
+        assertThat(actualSum).isEqualTo(expectedSum);
+    }
+
 }
