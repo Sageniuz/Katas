@@ -46,6 +46,21 @@ public class StringCalculator {
     }
 
     private String customSeperatorRegex() {
+        String single = createRegexForSingleCharacterSeperator();
+        String multi = createRegexForMultipleCharacterSeperator();
+        return single + multi;
+    }
+
+    private String createRegexForSingleCharacterSeperator() {
+        List<String> singleCharSep = seperators
+                .stream()
+                .filter(s -> s.length() == 1)
+                .collect(Collectors.toList());
+
+        return "[" + join("", singleCharSep) + "]";
+    }
+
+    private String createRegexForMultipleCharacterSeperator() {
         List<String> multiCharSep = seperators
                 .stream()
                 .filter(s -> s.length() > 1)
@@ -55,14 +70,6 @@ public class StringCalculator {
 
         if (!multiCharSep.isEmpty())
             multiRegex = "|(" + join("|", multiCharSep) + ")";
-
-        List<String> singleCharSep = seperators
-                .stream()
-                .filter(s -> s.length() == 1)
-                .collect(Collectors.toList());
-
-        String regex = "[" + join("", singleCharSep) + "]";
-
-        return regex + multiRegex;
+        return multiRegex;
     }
 }
