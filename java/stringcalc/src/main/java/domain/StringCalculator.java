@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.lang.String.*;
@@ -10,10 +11,11 @@ import static java.util.Arrays.asList;
 
 public class StringCalculator {
 
-    public static final int DEFAULT_VALUE = 0;
-    private static final ArrayList<String> seperators = new ArrayList<>(asList(",", "\n"));
-    public static final String SINGLE_CHAR_CUST_SEPERATOR_PREFIX = "//";
-    public static final String MULTI_CHAR_CUST_SEPERATOR_PREFIX = "//[";
+    private static final int DEFAULT_VALUE = 0;
+    private static final String SINGLE_CHAR_CUST_SEPERATOR_PREFIX = "//";
+    private static final String MULTI_CHAR_CUST_SEPERATOR_PREFIX = "//[";
+
+    private final ArrayList<String> seperators = new ArrayList<>(asList(",", "\n"));
 
     public int Add(String numbers) {
         if (numbers == null || numbers == "")
@@ -54,31 +56,14 @@ public class StringCalculator {
     }
 
     private String custSeperatorRegex() {
-        String single = createRegexForSingleCharacterSeperator();
-        String multi = createRegexForMultipleCharacterSeperator();
-        return single + multi;
-    }
+        String regex = join("|",
+                seperators
+                    .stream()
+                    .map(s -> "(" + s + ")")
+                    .collect(Collectors.toList()));
 
-    private String createRegexForSingleCharacterSeperator() {
-        List<String> singleCharSep = seperators
-                .stream()
-                .filter(s -> s.length() == 1)
-                .collect(Collectors.toList());
-
-        return "[" + join("", singleCharSep) + "]";
-    }
-
-    private String createRegexForMultipleCharacterSeperator() {
-        List<String> multiCharSep = seperators
-                .stream()
-                .filter(s -> s.length() > 1)
-                .collect(Collectors.toList());
-
-        String regex = "";
-
-        if (!multiCharSep.isEmpty())
-            regex = "|(" + join("|", multiCharSep) + ")";
-
-        return regex;
+        return regex
+                .replace("?", "\\?")
+                .replace("*", "\\*");
     }
 }
