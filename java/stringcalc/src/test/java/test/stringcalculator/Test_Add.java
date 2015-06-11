@@ -61,7 +61,8 @@ public class Test_Add {
     }
 
     @TestWith(value = {
-        "//[;;;]1;;;2;;;3 | 6"
+        "//[;;;]1;;;2;;;3 | 6",
+        "//[??]1??2??3 | 0"
     }, separator = "[\\|]")
     public void returns_sum_for_multiple_character_custom_seperator_seperated_numbers(
         String givenNumbers,
