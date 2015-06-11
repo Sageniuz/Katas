@@ -18,6 +18,12 @@ public class StringCalculator {
         if (numbers == null || numbers == "")
             return DEFAULT_VALUE;
 
+        if (numbers.startsWith("//[")) {
+            String seperator = numbers.split("\\[")[1].split("\\]")[0];
+            seperators.add(seperator);
+            numbers = numbers.split("\\]")[1];
+        }
+
         if (numbers.startsWith(SINGLE_CHARACTER_CUSTOM_SEPERATOR_PREFIX)) {
             seperators.add(customSeperatorFrom(numbers));
             numbers = withoutCustomSeperatorPattern(numbers);
@@ -40,6 +46,23 @@ public class StringCalculator {
     }
 
     private String customSeperatorRegex() {
-        return "[" + join("", seperators) + "]";
+        List<String> multiCharSep = seperators
+                .stream()
+                .filter(s -> s.length() > 1)
+                .collect(Collectors.toList());
+
+        String multiRegex = "";
+
+        if (!multiCharSep.isEmpty())
+            multiRegex = "|(" + join("|", multiCharSep) + ")";
+
+        List<String> singleCharSep = seperators
+                .stream()
+                .filter(s -> s.length() == 1)
+                .collect(Collectors.toList());
+
+        String regex = "[" + join("", singleCharSep) + "]";
+
+        return regex + multiRegex;
     }
 }
