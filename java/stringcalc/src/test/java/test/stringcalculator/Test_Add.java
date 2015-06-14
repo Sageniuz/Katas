@@ -3,27 +3,26 @@ package test.stringcalculator;
 import com.googlecode.zohhak.api.TestWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
 import domain.StringCalculator;
-import org.fest.assertions.api.Assertions;
-import org.junit.Ignore;
+import domain.api.Calculator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.fest.assertions.api.Assertions.*;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 @RunWith(ZohhakRunner.class)
 public class Test_Add {
 
+    Calculator sut = new StringCalculator();
+
     @Test
     public void returns_0_for_null() {
-        StringCalculator sut = new StringCalculator();
-        int actualSum = sut.Add(null);
+        int actualSum = sut.add(null);
         assertThat(actualSum).isZero();
     }
 
     @Test()
     public void returns_0_for_empty_string() {
-        StringCalculator sut = new StringCalculator();
-        int actualSum = sut.Add("");
+        int actualSum = sut.add("");
         assertThat(actualSum).isZero();
     }
 
@@ -32,8 +31,7 @@ public class Test_Add {
         "10, 10"
     })
     public void returns_given_number_if_only_single_number_is_provided(String givenNumbers, int expectedSum) {
-        StringCalculator sut = new StringCalculator();
-        int actualSum = sut.Add(givenNumbers);
+        int actualSum = sut.add(givenNumbers);
         assertThat(actualSum).isEqualTo(expectedSum);
     }
 
@@ -42,8 +40,7 @@ public class Test_Add {
         "1\n5\n10 | 16"
     }, separator = "[\\|]")
     public void returns_sum_for_default_seperator_seperated_numbers(String givenNumbers, int expectedSum) {
-        StringCalculator sut = new StringCalculator();
-        int actualSum = sut.Add(givenNumbers);
+        int actualSum = sut.add(givenNumbers);
         assertThat(actualSum).isEqualTo(expectedSum);
     }
 
@@ -55,8 +52,7 @@ public class Test_Add {
         String givenNumbers,
         int expectedSum)
     {
-        StringCalculator sut = new StringCalculator();
-        int actualSum = sut.Add(givenNumbers);
+        int actualSum = sut.add(givenNumbers);
         assertThat(actualSum).isEqualTo(expectedSum);
     }
 
@@ -68,8 +64,7 @@ public class Test_Add {
         String givenNumbers,
         int expectedSum)
     {
-        StringCalculator sut = new StringCalculator();
-        int actualSum = sut.Add(givenNumbers);
+        int actualSum = sut.add(givenNumbers);
         assertThat(actualSum).isEqualTo(expectedSum);
     }
 
