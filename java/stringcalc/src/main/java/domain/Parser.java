@@ -14,7 +14,8 @@ import static java.util.stream.Collectors.toList;
 
 public abstract class Parser {
 
-    public static final List<String> SEPERATORS = Stream.of(",", "\n").collect(toList());
+    public static final String[] DEFAULT_SEPERATORS = new String[]{",", "\n"};
+    public static final List<String> SEPERATORS = Stream.of(DEFAULT_SEPERATORS).collect(toList());
     protected String numbers;
 
     public static Parser create(@NonNull String numbers) {
