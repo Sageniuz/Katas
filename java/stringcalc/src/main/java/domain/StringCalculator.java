@@ -23,7 +23,7 @@ public class StringCalculator implements Calculator<String> {
         Function<String, Integer> onValid,
         Function<Void, Integer> onInvalid) {
 
-        if (numbers == null || numbers == "") {
+        if (numbers == null || numbers.isEmpty()) {
             return onInvalid.apply(null);
         } else {
             return onValid.apply(numbers);
