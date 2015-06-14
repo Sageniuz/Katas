@@ -3,18 +3,18 @@ package domain;
 import lombok.NonNull;
 import lombok.val;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static domain.MultiCharacterCustomParser.MULTI_CHAR_CUST_SEPERATOR_PREFIX;
 import static domain.SingleCharacterCustomParser.SINGLE_CHAR_CUST_SEPERATOR_PREFIX;
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 
 public abstract class Parser {
 
-    private static final List<String> DEFAULT_SEPERATORS = asList(",", "\n");
+    public static final List<String> SEPERATORS = Stream.of(",", "\n").collect(toList());
     protected String numbers;
 
     public static Parser create(@NonNull String numbers) {
@@ -32,17 +32,16 @@ public abstract class Parser {
     }
 
     public List<String> getNumbers() {
-        val seperators = new ArrayList<>(DEFAULT_SEPERATORS);
-        seperators.add(extractSeperatorOfNumbers());
+        SEPERATORS.add(extractSeperatorOfNumbers());
         numbers = deleteSeperatorPrefixOfNumbers();
-        return asList(numbers.split(byRegex(seperators)));
+        return asList(numbers.split(byAllSeperators()));
     }
 
-    private static String byRegex(List<String> seperators) {
-        val regex = join("|", seperators
+    private static String byAllSeperators() {
+        val regex = join("|", SEPERATORS
             .stream()
             .map(s -> "(" + s + ")")
-            .collect(Collectors.toList()));
+            .collect(toList()));
 
         return regex
                 .replace("?", "\\?")
