@@ -2,7 +2,6 @@ package domain;
 
 import domain.api.Calculator;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -24,14 +23,14 @@ public class StringCalculator implements Calculator<String> {
         Function<String, Integer> onValid,
         Function<Void, Integer> onInvalid) {
 
-        if (isValid.test(numbers)) {
+        if (isNotValid.test(numbers)) {
             return onInvalid.apply(null);
         } else {
             return onValid.apply(numbers);
         }
     }
 
-    private Predicate<String> isValid = (numbers) -> numbers == null || numbers.isEmpty();
+    private Predicate<String> isNotValid = (numbers) -> numbers == null || numbers.isEmpty();
 
     private int sum(String numbers) {
         Parser parser = Parser.create(numbers);
