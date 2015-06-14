@@ -1,6 +1,6 @@
 package domain;
 
-class MultiCharacterCustomParser extends Parser {
+public class MultiCharacterCustomParser extends Parser {
 
     public static final String MULTI_CHAR_CUST_SEPERATOR_PREFIX = "//[";
 

@@ -1,6 +1,6 @@
 package domain;
 
-class SingleCharacterCustomParser extends Parser {
+public class SingleCharacterCustomParser extends Parser {
 
     public static final String SINGLE_CHAR_CUST_SEPERATOR_PREFIX = "//";
 
