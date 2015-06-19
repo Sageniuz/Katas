@@ -34,8 +34,8 @@ public abstract class Parser {
 
     public List<String> getNumbers() {
         SEPERATORS.add(extractSeperatorOfNumbers());
-        numbers = deleteSeperatorPrefixOfNumbers();
-        return asList(numbers.split(byAllSeperators()));
+        val newNumbers = deleteSeperatorPrefixOfNumbers();
+        return asList(newNumbers.split(byAllSeperators()));
     }
 
     private static String byAllSeperators() {
