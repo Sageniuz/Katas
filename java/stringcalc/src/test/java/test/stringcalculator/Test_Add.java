@@ -4,13 +4,19 @@ import com.googlecode.zohhak.api.TestWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
 import domain.StringCalculator;
 import domain.api.Calculator;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
+import static java.lang.String.format;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @RunWith(ZohhakRunner.class)
 public class Test_Add {
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     Calculator sut = new StringCalculator();
 
@@ -33,6 +39,13 @@ public class Test_Add {
     public void returns_given_number_if_only_single_number_is_provided(String givenNumbers, int expectedSum) {
         int actualSum = sut.add(givenNumbers);
         assertThat(actualSum).isEqualTo(expectedSum);
+    }
+
+    @Test
+    public void throws_if_containing_negative_numbers() {
+        exception.expect(IllegalArgumentException.class);
+        exception.expectMessage(format("Negative numbers are not allowed: %s", "-3, -2"));
+        sut.add("1,-3,5,-2");
     }
 
     @TestWith(value = {
