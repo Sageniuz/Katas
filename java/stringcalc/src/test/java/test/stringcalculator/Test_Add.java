@@ -42,10 +42,10 @@ public class Test_Add {
     }
 
     @Test
-    public void throws_given_a_negative_number() {
+    public void throws_if_containing_negative_numbers() {
         exception.expect(IllegalArgumentException.class);
-        exception.expectMessage(format("Negative numbers are not allowed: %s", "-3"));
-        sut.add("1,-3,5");
+        exception.expectMessage(format("Negative numbers are not allowed: %s", "-3, -2"));
+        sut.add("1,-3,5,-2");
     }
 
     @TestWith(value = {

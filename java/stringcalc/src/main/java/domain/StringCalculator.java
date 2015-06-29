@@ -7,7 +7,6 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.*;
@@ -21,8 +20,8 @@ public class StringCalculator implements Calculator<String> {
     @Override
     public int add(String numbers) {
         return validate(numbers,
-            this::sum,
-            (Void) -> DEFAULT_VALUE);
+            this::sum,                /** onValid */
+            (Void) -> DEFAULT_VALUE); /** onInvalid */
     }
 
     private int validate(
@@ -35,30 +34,33 @@ public class StringCalculator implements Calculator<String> {
         } else {
             return onValid.apply(
                 numbers,
-                (nrs) -> {
-                    List<String> negatives = nrs
-                        .stream()
-                        .mapToInt(s -> parseInt(s))
-                        .filter(nr -> nr < 0)
-                        .boxed()
-                        .map(nr -> nr.toString())
-                        .collect(Collectors.toList());
-
-                    if (! negatives.isEmpty())
-                        throw new IllegalArgumentException(
-                            format("Negative numbers are not allowed: %s", join(",", negatives)));
-                });
+                this::handleNegatives);
         }
+    }
+
+    private void handleNegatives(List<String> numbers) {
+            List<String> negatives = numbers
+                .stream()
+                .mapToInt(s -> parseInt(s))
+                .filter(nr -> nr < 0)
+                .boxed()
+                .map(nr -> nr.toString())
+                .collect(Collectors.toList());
+
+            if (! negatives.isEmpty())
+                throw new IllegalArgumentException(
+                    format("Negative numbers are not allowed: %s", join(", ", negatives)));
     }
 
     private Predicate<String> isNotValid = (numbers) -> numbers == null || numbers.isEmpty();
 
-    private int sum(String numbers, Consumer<List<String>> handleNegatives) {
-        Parser parser = Parser.create(numbers);
+    private int sum(String numbers, Consumer<List<String>> onContainingNegatives) {
+        Parser parser = Parser.createParserFor(numbers);
+        List<String> nrs = parser.getNumbers();
 
-        handleNegatives.accept(parser.getNumbers());
+        onContainingNegatives.accept(nrs);
 
-        int sum = parser.getNumbers()
+        int sum = nrs
             .stream()
             .mapToInt(s -> parseInt(s))
             .sum();

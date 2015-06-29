@@ -1,15 +1,15 @@
 package test.stringcalculator;
 
-import domain.DefaultParser;
-import domain.MultiCharacterCustomParser;
+import domain.ParserForDefaultSeparators;
+import domain.ParserForMultiCharCustomSeparator;
 import domain.Parser;
-import domain.SingleCharacterCustomParser;
+import domain.ParserForSingleCharCustSeparator;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static domain.MultiCharacterCustomParser.*;
-import static domain.SingleCharacterCustomParser.*;
+import static domain.ParserForMultiCharCustomSeparator.*;
+import static domain.ParserForSingleCharCustSeparator.*;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class ParserTest {
@@ -21,27 +21,27 @@ public class ParserTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("numbers");
         String numbers = null;
-        Parser.create(numbers);
+        Parser.createParserFor(numbers);
     }
 
     @Test
     public void returnsCorrectImplementationForGivenNumbers() {
         String numbers = "";
-        Parser parser = Parser.create(numbers);
-        assertThat(parser).isInstanceOf(DefaultParser.class);
+        Parser parser = Parser.createParserFor(numbers);
+        assertThat(parser).isInstanceOf(ParserForDefaultSeparators.class);
     }
 
     @Test public void
-    returnsCorrectImplementationForNumbersStartingWithSeperatorPrefixForSingleCharacterSeperators() {
-        String numbers = SINGLE_CHAR_CUST_SEPERATOR_PREFIX;
-        Parser parser = Parser.create(numbers);
-        assertThat(parser).isInstanceOf(SingleCharacterCustomParser.class);
+    returnsCorrectImplementationForNumbersStartingWithSeparatorPrefixForSingleCharacterSeparators() {
+        String numbers = SINGLE_CHAR_CUST_SEPARATOR_PREFIX;
+        Parser parser = Parser.createParserFor(numbers);
+        assertThat(parser).isInstanceOf(ParserForSingleCharCustSeparator.class);
     }
 
     @Test public void
-    returnsCorrectImplementationForNumbersStartingWithSeperatorPrefixForMultiCharacterSeperators() {
-        String numbers = MULTI_CHAR_CUST_SEPERATOR_PREFIX;
-        Parser parser = Parser.create(numbers);
-        assertThat(parser).isInstanceOf(MultiCharacterCustomParser.class);
+    returnsCorrectImplementationForNumbersStartingWithSeparatorPrefixForMultiCharacterSeparators() {
+        String numbers = MULTI_CHAR_CUST_SEPARATOR_PREFIX;
+        Parser parser = Parser.createParserFor(numbers);
+        assertThat(parser).isInstanceOf(ParserForMultiCharCustomSeparator.class);
     }
 }
